@@ -1,0 +1,12 @@
+Django>=5.0
+mysqlclient>=2.2
+celery>=5.3
+redis>=5.0
+python-dotenv>=1.0
+pytest
+pytest-django
+pytest-cov
+black
+ruff
+mypy
+requests
