@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 from celery.schedules import crontab
@@ -80,11 +81,11 @@ WSGI_APPLICATION = "stability_monitor.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "stability_monitor",
-        "USER": "root",
-        "PASSWORD": "root",
-        "HOST": "db",  # имя сервиса в docker-compose
-        "PORT": "3306",
+        "NAME": os.environ.get("MYSQL_DB", "stability_monitor"),
+        "USER": os.environ.get("MYSQL_USER", "root"),
+        "PASSWORD": os.environ.get("MYSQL_PASSWORD", "root"),
+        "HOST": os.environ.get("MYSQL_HOST", "db"),  # вот тут
+        "PORT": os.environ.get("MYSQL_PORT", "3306"),
         "OPTIONS": {"init_command": "SET sql_mode='STRICT_TRANS_TABLES'"},
     }
 }
