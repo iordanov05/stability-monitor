@@ -2,14 +2,16 @@ from django.db import models
 
 
 class Server(models.Model):
-    """Машина, которую мониторим."""
+    name = models.CharField(max_length=128)
+    ip = models.GenericIPAddressField()
+    port = models.IntegerField(default=8080)
+    description = models.TextField(blank=True)
 
-    name = models.CharField(max_length=128, unique=True)
-    ip = models.GenericIPAddressField(unique=True)
-    description = models.TextField(blank=True, default="")
+    def get_metrics_url(self):
+        return f"http://{self.ip}:{self.port}/metrics"
 
     def __str__(self):
-        return f"{self.name} ({self.ip})"
+        return f"{self.name} ({self.ip}:{self.port})"
 
 
 class Metric(models.Model):
