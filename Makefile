@@ -52,5 +52,14 @@ run:
 compose-up:
 	docker compose up --build -d
 
+# Собрать mock-сервер и запустить 30 контейнеров
+mockservers:
+	docker build -t stability-monitor-mock ./mock_servers
+	bash ./mock_servers/start_multiple.sh
+
+# Остановить все mock-серверы (по имени)
+stop-mockservers:
+	-docker stop $$(docker ps -q --filter "name=mock_server_")
+
 compose-down:
 	docker compose down
